@@ -1,3 +1,3 @@
 # VariantProcessing
-This is a line from Rstudio
-Hi
+VariantProcessing is a bioconductor package to parse and process germline
+variant data 
