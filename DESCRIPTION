@@ -1,0 +1,13 @@
+Package: VariantProcessing
+Type: Package
+Title: Variant Proccessing and Filtering
+Version: 0.1.0
+Author: Jeffrey Shi 
+Maintainer: Jeffrey Shi <jjs9bf@virginia.edu>
+Description: More about what it does (maybe more than one line)
+    Use four spaces when indenting paragraphs within the Description.
+License: MIT
+Encoding: UTF-8
+LazyData: true
+Imports: vcfR, rlang, data.table, dplyr, tidyverse, rlist, iterators, LaF, pryr, fst, disk.frame
+RoxygenNote: 6.1.1

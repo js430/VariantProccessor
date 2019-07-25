@@ -11,11 +11,19 @@
 #' @export
 #' @importFrom dplyr right_join
 #' @importFrom data.table as.data.table
+#' @importFrom tools file_path_sans_ext
 
+sampleMerge<-function(){
+    list<-list.files(pattern="*", full.names = T)
+    base<-lapply(list, file_path_sans_ext)
+    base<-unique(base)
+    lapply(base, merge)
+}
 
-sampleMerge<-function(filePath){
-    vcf<-enterVCFFileName() #Reads in VCF
-    depth<-enterDepthFileName() #Reads in depth
+merge<-function(fileName){
+    
+    vcf<-paste0(fileName, ".vcf")
+    depth<-paste0(fileName, ".depth") #Reads in depth
 
     gt_dataTable<-processVCF(vcf) #Process VCF and depth
     df<-processDepth(depth)
@@ -25,7 +33,7 @@ sampleMerge<-function(filePath){
     names(mergeframe)[names(mergeframe)=="new"]<-colnames(mergeframe)[1] #Rename
     #column
     new<-colnames(mergeframe)[1]
-    levels(mergeframe$new)<-c(levels(mergeframe$new), 0) #Allow 0 to be a value
+    levels(mergeframe[,2])<-c(levels(mergeframe[2]), 0)#Allow 0 to be a value
 
     mergeframe_dt<-as.data.table(mergeframe)
     mergeframe_dt<-mergeframe_dt[,-1]
@@ -34,7 +42,5 @@ sampleMerge<-function(filePath){
     eval(expr)
     mergeframe_dt<-mergeframe_dt[,-3]
     mergeframe_dt<-mergeframe_dt[,c(2,1)]
-    mergeframe_dt<-mergeframe_dt %>% remove_rownames
-        %>% column_to_rownames(var="Position")
-    fwrite(mergeframe_dt, file=filePath)
+    fwrite(mergeframe_dt, file=fileName)
 }

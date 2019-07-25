@@ -9,11 +9,12 @@
 #' processVCF(xxx.vcf)
 #' processDepth(xxx.depth)
 #'
-#' @importFrom vcfR extract.gt
+#' @importFrom vcfR extract.gt read.vcfR
 #' @importFrom data.table as.data.table fread
 
 processVCF<- function(vcf_File){
-    gt<-extract.gt(get(vcf_File)) #vcfR package
+    vcf<-read.vcfR(vcf_File)
+    gt<-extract.gt(vcf) #vcfR package
     new<-vapply(gt[,1], function(x) strtoi(substr(x, 1, 1))+strtoi(substr(x, 3, 3)),numeric(1))
     gt<-cbind(gt, new)
     Position<-row.names(gt)
@@ -26,9 +27,9 @@ processDepth<- function(depth_File){
     df<-fread(depth_File)
     vector<-rep("_", nrow(df))
     df<-cbind(df, vector)
-    df$CHR<-with(df, paste0(V1, vector, V2))
+    df$Position<-with(df, paste0(V1, vector, V2))
     df<-df[,-c(1,2,4)]
-    names(depth)[names(depth) == "V3"] <- "Reads"
-    depth<-depth[,c("Position", "Reads")]
-    return(depth)
+    names(df)[names(df) == "V3"] <- "Reads"
+    df<-df[,c("Position", "Reads")]
+    return(df)
 }

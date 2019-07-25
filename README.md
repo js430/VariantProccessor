@@ -11,20 +11,21 @@ These instructions will get you a copy of the project up and running on your loc
 Bedtools: 
 
 For Fedroa 13, 14 and EPEL5/6 users, run the following command line command:
-```yum install BEDTools
+```
+$ yum install BEDTools
 ```
 For Debian/Ubuntu users:
 ```
-apt-get install bedtools
+$ apt-get install bedtools
 ```
 For OSX users with Homebrew installed:
 ```
-brew tap homebrew/science
-brew install bedtools
+$ brew tap homebrew/science
+$ brew install bedtools
 ```
 Or alternatively wiht the MacPort system:
 ```
-port install bedtools
+$ port install bedtools
 ```
 
 BedOPS:
