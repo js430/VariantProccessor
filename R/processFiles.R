@@ -11,6 +11,7 @@
 #'
 #' @importFrom vcfR extract.gt read.vcfR
 #' @importFrom data.table as.data.table fread
+#' @exportsproc
 
 processVCF<- function(vcf_File){
     vcf<-read.vcfR(vcf_File)

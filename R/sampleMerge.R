@@ -13,14 +13,14 @@
 #' @importFrom data.table as.data.table
 #' @importFrom tools file_path_sans_ext
 
-sampleMerge<-function(){
+sampleMerge<-function(cutoff){
     list<-list.files(pattern="*", full.names = T)
     base<-lapply(list, file_path_sans_ext)
     base<-unique(base)
-    lapply(base, merge)
+    lapply(base, merge, readCutoff=cutoff)
 }
 
-merge<-function(fileName){
+merge<-function(fileName, readCutoff){
     
     vcf<-paste0(fileName, ".vcf")
     depth<-paste0(fileName, ".depth") #Reads in depth
@@ -33,11 +33,12 @@ merge<-function(fileName){
     names(mergeframe)[names(mergeframe)=="new"]<-colnames(mergeframe)[1] #Rename
     #column
     new<-colnames(mergeframe)[1]
+
     levels(mergeframe[,2])<-c(levels(mergeframe[2]), 0)#Allow 0 to be a value
 
     mergeframe_dt<-as.data.table(mergeframe)
     mergeframe_dt<-mergeframe_dt[,-1]
-    expr<-substitute(mergeframe_dt[is.na(var_name) & Reads>5, var_name
+    expr<-substitute(mergeframe_dt[is.na(var_name) & Reads>readCutoff, var_name
                                    := factor(0)], list(var_name=as.name(new)))
     eval(expr)
     mergeframe_dt<-mergeframe_dt[,-3]

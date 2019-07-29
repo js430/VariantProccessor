@@ -4,7 +4,7 @@
 \alias{sampleMerge}
 \title{Merging a signle sample}
 \usage{
-sampleMerge()
+sampleMerge(cutoff)
 }
 \arguments{
 \item{filePath}{folder path for final data}

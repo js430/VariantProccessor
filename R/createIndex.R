@@ -15,5 +15,5 @@
 createIndex<-function(file, filePath){
     positionFile<-fread(file) #data.table package
     one<-positionFile[,1]
-    fwrite(one, filePath)
+    fwrite(one, paste0(filePath,"Index"))
 }
