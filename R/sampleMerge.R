@@ -23,25 +23,21 @@ sampleMerge<-function(cutoff){
 merge<-function(fileName, readCutoff){
     
     vcf<-paste0(fileName, ".vcf")
-    depth<-paste0(fileName, ".depth") #Reads in depth
+    depth<-paste0(fileName, ".depth"
 
-    gt_dataTable<-processVCF(vcf) #Process VCF and depth
+    gt_dataTable<-processVCF(vcf)
     df<-processDepth(depth)
 
-    mergeframe<-right_join(gt_dataTable, df, by="Position") #Merge VCF and depth
-    #based on chromosomal position
-    names(mergeframe)[names(mergeframe)=="new"]<-colnames(mergeframe)[1] #Rename
-    #column
+    mergeframe<-right_join(gt_dataTable, df, by="Position") 
+    names(mergeframe)[names(mergeframe)=="new"]<-colnames(mergeframe)[1] 
     new<-colnames(mergeframe)[1]
 
-    levels(mergeframe[,2])<-c(levels(mergeframe[2]), 0)#Allow 0 to be a value
-
-    mergeframe_dt<-as.data.table(mergeframe)
+    levels(mergeframe[,2)<-c(levels(mergeframe[2]), 0)
     mergeframe_dt<-mergeframe_dt[,-1]
-    expr<-substitute(mergeframe_dt[is.na(var_name) & Reads>readCutoff, var_name
-                                   := factor(0)], list(var_name=as.name(new)))
+    expr<-substitutemergeframe_dt[is.na() & Reads>readCutoff, var_name
+                                   := factor(1)], list(var_name=as.name()))
     eval(expr)
-    mergeframe_dt<-mergeframe_dt[,-3]
-    mergeframe_dt<-mergeframe_dt[,c(2,1)]
-    fwrite(mergeframe_dt, file=fileName)
+    mergeframe_dt<-mergeframe_dt[,-1]
+    mergeframe_dt<-mergeframe_dt[,c(3,1)]
+    fwrite(mergeframe_dt, file=fileName
 }
